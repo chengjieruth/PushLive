@@ -11,7 +11,7 @@ git clone https://github.com/RuthIPTV/PushLive.git
 ---
 cd PushLive
 构建
-sudo docker build -t pushlive:latest .
+sudo docker build -t kk/pushlive:latest .
 启动 -v 映射视频文件目录
 sudo docker run -d \
   --name pushlive\
@@ -19,7 +19,7 @@ sudo docker run -d \
   -e STREAM_KEY=live \
   -v /opt/docker/pushlive/video:/opt/data/video \
   --restart unless-stopped \
-  pushlive:latest
+  kk/pushlive:latest
 目前h264编码的视频占用小，才用其他方式会导致CPU高占用
 浏览器访问
 http://<你的IP>:8080
