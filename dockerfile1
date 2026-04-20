@@ -49,9 +49,6 @@ RUN ./configure \
 # 第二阶段：运行环境
 # ===============================
 FROM alpine:3.20
-ENV http_proxy=
-ENV https_proxy=
-ENV no_proxy=
 ENV TZ=Asia/Shanghai
 RUN cat > "/usr/local/bin/push.sh" << EOF
 #!/bin/sh
@@ -79,24 +76,6 @@ NOTIME() { echo -e "${GREEN}--> INFO: $1${NC}"; }
 VIDEO_DIR="/media"
 STREAM_KEY="${STREAM_KEY:-video}"
 RTMP_URL="rtmp://localhost:1935/hls/$STREAM_KEY"
-
-# ======================
-# 挂载 CIFS
-# ======================
-# INFO "检查 CIFS 挂载..."
-# ls $VIDEO_DIR/smb/* >/dev/null 2>&1
-# if [ $? -ne 0 ]; then
-#     mkdir -p "$VIDEO_DIR/smb"
-#     SMB_DIR="$VIDEO_DIR/smb"
-#     mount -t cifs //192.168.0.123/jellyfin/tv "$SMB_DIR" -o username=root,password=8888
-#     INFO "$SMB_DIR 已挂载"
-# else
-#     INFO "SMB 已挂载"
-# fi
-
-# ======================
-# 初始化 HLS 输出目录
-# ======================
 INFO "初始化 HLS 输出目录..."
 rm -rf /opt/data/hls/*
 
@@ -155,10 +134,6 @@ while true; do
         FILE_NUM=$((FILE_NUM+1))
         eval "FILE$FILE_NUM=\$line"
     done < "$mp4_list"
-
-    # ======================
-    # 按顺序推流
-    # ======================
     i=1
     while [ $i -le $FILE_NUM ]; do
         eval "mp4file=\$FILE$i"
