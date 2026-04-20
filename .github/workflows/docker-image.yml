@@ -4,7 +4,10 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'dockerfile1'
+      - 'Dockerfile'
+      - 'push.sh'
+      - 'index.html'
+      - 'nginx.conf'
   pull_request:
     branches: [ main ]
   workflow_dispatch:
